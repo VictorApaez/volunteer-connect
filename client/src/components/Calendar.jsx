@@ -38,7 +38,7 @@ function Calendar() {
     <>
       <div
         className="calendar-wrapper"
-        style={{ height: "calc(100% - 80px)", position: "relative" }}
+        style={{ flex: "1", position: "relative" }}
       >
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}

@@ -42,7 +42,8 @@ const login = async (req, res) => {
     if (!passwordMatch) {
       return res.status(401).send("Invalid username or password");
     }
-    const token = jwt.sign({ username: user.username }, jwtSecrete);
+    const token = jwt.sign({ username: user.password }, jwtSecrete);
+
     res.status(200).json({ token, user: user.username });
   } catch (err) {
     res.status(400).send(err.message);

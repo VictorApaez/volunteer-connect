@@ -13,7 +13,6 @@ function SignUpForm() {
   });
   const [errors, setErrors] = useState({});
   const { setUser } = useContext(UserContext);
-  console.log(setUser);
   const navigate = useNavigate();
 
   function handleChange(event) {
@@ -50,6 +49,7 @@ function SignUpForm() {
       // If there are no validation errors:
       try {
         const res = await signup(formData);
+
         const { success, token, error, status } = res;
         if (success) {
           setUser({

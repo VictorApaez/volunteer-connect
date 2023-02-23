@@ -1,10 +1,10 @@
 import { Routes, Route } from "react-router-dom";
-import SignUpForm from "./components/SignUpForm";
+import SignUpForm from "./SignUpForm";
 import React from "react";
-import Calendar from "./components/Calendar";
-import { Navbar } from "./components/Navbar";
-import "./styles/App.css";
-import Login from "./components/Login";
+import Calendar from "./Calendar";
+import { Navbar } from "./Navbar";
+import "../styles/App.css";
+import Login from "./Login";
 function App() {
   return (
     <div className="app">

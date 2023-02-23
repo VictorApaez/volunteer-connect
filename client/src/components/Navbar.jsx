@@ -4,10 +4,14 @@ import { UserContext } from "../context/userContext";
 import "../styles/Navbar.css";
 
 export const Navbar = () => {
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
+  function logout() {
+    localStorage.removeItem("token");
+    setUser(null);
+  }
 
   return (
-    <nav className="navbar">
+    <div className="navbar">
       <h1 className="navbar__title">Volunteer Connect</h1>
       <ul className="navbar__list">
         <li className="navbar__item">
@@ -20,7 +24,7 @@ export const Navbar = () => {
             About
           </Link>
         </li>
-        {user.username ? (
+        {user ? (
           <>
             <li className="navbar__item">
               <Link to="/profile" className="navbar__link">
@@ -28,7 +32,7 @@ export const Navbar = () => {
               </Link>
             </li>
             <li className="navbar__item">
-              <Link to="/logout" className="navbar__link">
+              <Link to="/login" className="navbar__link" onClick={logout}>
                 Logout
               </Link>
             </li>
@@ -48,6 +52,6 @@ export const Navbar = () => {
           </>
         )}
       </ul>
-    </nav>
+    </div>
   );
 };

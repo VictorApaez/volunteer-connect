@@ -17,7 +17,7 @@ export const signup = async ({ username, password }) => {
           status: response.status,
         };
       } else {
-        console.log(loginResponse);
+        return loginResponse;
       }
     }
   } catch (err) {
@@ -43,13 +43,13 @@ export const login = async ({ username, password }) => {
       username,
       password,
     });
-
     if (response.status === 200) {
       return { success: true, token: response.data.token };
     } else {
       return { success: false, error: response.data.message };
     }
   } catch (err) {
+    console.log("NSIOFOSIJ");
     return { success: false, error: err.message };
   }
 };

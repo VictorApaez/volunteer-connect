@@ -1,12 +1,14 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
+import { Link, useNavigate, useOutlet } from "react-router-dom";
 import { login } from "../services/authService";
 import "../styles/Login.css";
+import { UserContext } from "../context/userContext";
 
 function Login() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [errors, setErrors] = useState({});
+  const { setUser } = useContext(UserContext);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -22,6 +24,7 @@ function Login() {
       const response = await login(formData);
       if (response.success) {
         localStorage.setItem("token", response.token);
+        setUser({ username: formData.username });
         navigate("/");
       } else {
         setErrors({ email: response.error });
@@ -34,7 +37,7 @@ function Login() {
   return (
     <div className="login">
       <form className="login__form" onSubmit={handleSubmit}>
-        <h2 className="login__title">Login</h2>
+        <h1 className="login__title">Login</h1>
         <div className="login__form-group">
           <label htmlFor="username" className="login__label">
             Username
@@ -46,6 +49,7 @@ function Login() {
             value={formData.username}
             onChange={handleInputChange}
             className="login__input"
+            placeholder="Type your username"
           />
           {errors.username && (
             <div className="login__error">{errors.username}</div>
@@ -62,6 +66,7 @@ function Login() {
             value={formData.password}
             onChange={handleInputChange}
             className="login__input"
+            placeholder="Type your password"
           />
           {errors.password && (
             <div className="login__error">{errors.password}</div>
