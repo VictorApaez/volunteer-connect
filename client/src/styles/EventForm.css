@@ -1,0 +1,18 @@
+.event-form-modal {
+}
+
+.event-form-modal-overlay {
+}
+
+.event-form {
+  display: flex;
+  justify-content: center;
+}
+
+.event-form > * {
+  margin: 5px;
+}
+
+.event-form-input {
+  padding: 10px;
+}
