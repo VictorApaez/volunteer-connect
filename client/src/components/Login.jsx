@@ -1,5 +1,5 @@
-import { useState, useContext } from "react";
-import { Link, useNavigate, useOutlet } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { login } from "../services/authService";
 import "../styles/Login.css";
 import { UserContext } from "../context/userContext";
@@ -20,17 +20,30 @@ function Login() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-      const response = await login(formData);
-      if (response.success) {
-        localStorage.setItem("token", response.token);
-        setUser({ username: formData.username });
-        navigate("/");
-      } else {
-        setErrors({ email: response.error });
+    let validationErrors = {};
+    if (!formData.username) {
+      validationErrors.username = "Email is required";
+    }
+    if (!formData.password) {
+      validationErrors.password = "Password is required";
+    }
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+    } else {
+      try {
+        const response = await login(formData);
+        if (response.success) {
+          localStorage.setItem("token", response.token);
+          setUser({ username: formData.username });
+          navigate("/");
+        } else {
+          setErrors({ other: response.error });
+        }
+      } catch (err) {
+        setErrors({
+          username: "Something went wrong. Please try again later.",
+        });
       }
-    } catch (err) {
-      setErrors({ email: "Something went wrong. Please try again later." });
     }
   };
 
@@ -38,6 +51,7 @@ function Login() {
     <div className="login">
       <form className="login__form" onSubmit={handleSubmit}>
         <h1 className="login__title">Login</h1>
+        {errors.other && <div className="login__error">{errors.other}</div>}
         <div className="login__form-group">
           <label htmlFor="username" className="login__label">
             Username

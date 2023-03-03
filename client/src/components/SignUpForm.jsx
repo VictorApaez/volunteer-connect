@@ -4,6 +4,8 @@ import { signup } from "../services/authService";
 import { useContext } from "react";
 import { UserContext } from "../context/userContext";
 import { useNavigate } from "react-router-dom";
+import { validateSignUpForm } from "../utils/formValidation.js";
+import { Link } from "react-router-dom";
 
 function SignUpForm() {
   const [formData, setFormData] = useState({
@@ -26,22 +28,7 @@ function SignUpForm() {
   async function handleSubmit(event) {
     event.preventDefault();
 
-    // Validation rules
-    const validationErrors = {};
-    if (!formData.username) {
-      validationErrors.username = "Username is required";
-    }
-    if (!formData.password) {
-      validationErrors.password = "Password is required";
-    } else if (formData.password.length < 8) {
-      validationErrors.password = "Password must be at least 8 characters long";
-    }
-    if (!formData.confirmPassword) {
-      validationErrors.confirmPassword = "Confirm Password is required";
-    } else if (formData.password !== formData.confirmPassword) {
-      validationErrors.confirmPassword = "Passwords do not match";
-    }
-
+    const validationErrors = validateSignUpForm(formData);
     // Cannot submit for is there are validation Errors
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
@@ -49,7 +36,6 @@ function SignUpForm() {
       // If there are no validation errors:
       try {
         const res = await signup(formData);
-
         const { success, token, error, status } = res;
         if (success) {
           setUser({
@@ -87,7 +73,7 @@ function SignUpForm() {
           autoComplete="new-username"
         />
         {errors.username && (
-          <div className="form__error">{errors.username}</div>
+          <div className="signup__form__error">{errors.username}</div>
         )}
       </div>
 
@@ -127,7 +113,7 @@ function SignUpForm() {
         Sign Up
       </button>
       <p>
-        Already have an account? <b>Log In</b>
+        Already have an account? <Link to={"/login"}>Log In</Link>
       </p>
     </form>
   );

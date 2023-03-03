@@ -1,0 +1,9 @@
+.date-picker-calendar {
+  position: relative;
+  z-index: 1;
+}
+
+.react-datepicker__triangle {
+  background-color: blueviolet !important;
+  height: 100px !important;
+}

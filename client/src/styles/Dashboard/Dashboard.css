@@ -1,0 +1,39 @@
+.dashboard-container {
+  padding: 30px;
+  padding-top: 80px;
+  height: 100%;
+  overflow: hidden;
+  display: grid;
+  grid-template-areas:
+    "widget widget widget"
+    "line bar bar"
+    "pie bar bar";
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  margin-top: 20px;
+  gap: 20px;
+}
+
+.dashboard-graph {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+  max-height: 100%;
+  overflow: hidden;
+}
+
+.widgets {
+  grid-area: widget;
+}
+
+.bar-graph {
+  grid-area: bar;
+}
+
+.line-graph {
+  grid-area: line;
+}
+
+.pie-graph {
+  grid-area: pie;
+}

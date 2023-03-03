@@ -1,0 +1,47 @@
+.formik-form {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 400px;
+}
+
+.formik-form__label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 20px 0 8px;
+}
+
+.formik-form__input {
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  box-sizing: border-box;
+  height: 40px;
+  padding: 8px;
+  width: 100%;
+}
+
+.formik-form__input:focus {
+  border-color: #0073b1;
+  outline: none;
+}
+
+.formik-form__label-checkbox {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.formik-form__checkbox {
+  margin-left: 8px;
+  display: inline-block;
+}
+
+.formik-form__error {
+  color: #d93025;
+  font-size: 14px;
+  margin-top: 8px;
+  text-align: left;
+}

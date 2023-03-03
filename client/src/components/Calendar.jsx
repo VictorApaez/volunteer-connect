@@ -38,7 +38,12 @@ function Calendar() {
     <>
       <div
         className="calendar-wrapper"
-        style={{ flex: "1", position: "relative" }}
+        style={{
+          flex: "1",
+          position: "relative",
+          marginTop: "80px",
+          padding: "40px",
+        }}
       >
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -47,7 +52,7 @@ function Calendar() {
             center: "title",
             right: "dayGridMonth,timeGridWeek,timeGridDay",
           }}
-          initialView="timeGrid"
+          initialView="dayGridMonth"
           events={events}
           scrollTime="06:00:00"
           selectable={true}

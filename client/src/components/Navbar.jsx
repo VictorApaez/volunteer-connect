@@ -1,57 +1,61 @@
 import { Link } from "react-router-dom";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { UserContext } from "../context/userContext";
+import { Navbar, Nav } from "react-bootstrap";
+
 import "../styles/Navbar.css";
 
-export const Navbar = () => {
+function Header() {
   const { user, setUser } = useContext(UserContext);
+
   function logout() {
     localStorage.removeItem("token");
     setUser(null);
   }
 
   return (
-    <div className="navbar">
-      <h1 className="navbar__title">Volunteer Connect</h1>
-      <ul className="navbar__list">
-        <li className="navbar__item">
-          <Link to="/" className="navbar__link">
+    <Navbar expand="lg" className="navbar">
+      <Navbar.Brand className="navbar__title">Volunteer Connect</Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Nav className="mr-auto">
+          <Nav.Link as={Link} to="/" className="navbar__link">
             Home
-          </Link>
-        </li>
-        <li className="navbar__item">
-          <Link to="/about" className="navbar__link">
+          </Nav.Link>
+          <Nav.Link as={Link} to="/about" className="navbar__link">
             About
-          </Link>
-        </li>
+          </Nav.Link>
+        </Nav>
         {user ? (
-          <>
-            <li className="navbar__item">
-              <Link to="/profile" className="navbar__link">
-                {user.username}
-              </Link>
-            </li>
-            <li className="navbar__item">
-              <Link to="/login" className="navbar__link" onClick={logout}>
-                Logout
-              </Link>
-            </li>
-          </>
+          <Nav className="navbar__list">
+            <Nav.Link as={Link} to="/profile" className="navbar__link">
+              {user.username}
+            </Nav.Link>
+            <Nav.Link as={Link} to="/feed" className="navbar__link">
+              Feed
+            </Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/login"
+              className="navbar__link"
+              onClick={logout}
+            >
+              Logout
+            </Nav.Link>
+          </Nav>
         ) : (
-          <>
-            <li className="navbar__item">
-              <Link to="/login" className="navbar__link">
-                Login
-              </Link>
-            </li>
-            <li className="navbar__item">
-              <Link to="/signup" className="navbar__link">
-                Sign Up
-              </Link>
-            </li>
-          </>
+          <Nav className="navbar__list">
+            <Nav.Link as={Link} to="/login" className="navbar__link">
+              Login
+            </Nav.Link>
+            <Nav.Link as={Link} to="/signup" className="navbar__link">
+              Sign Up
+            </Nav.Link>
+          </Nav>
         )}
-      </ul>
-    </div>
+      </Navbar.Collapse>
+    </Navbar>
   );
-};
+}
+
+export default Header;

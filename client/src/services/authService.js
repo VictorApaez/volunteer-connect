@@ -6,9 +6,10 @@ export const signup = async ({ username, password }) => {
       username,
       password,
     });
-    if (response.status === 201) {
+    if (response.status === 200) {
       // Signup was successful, log in the user
       const loginResponse = await login({ username, password });
+
       if (loginResponse.success) {
         return {
           success: true,
@@ -49,7 +50,6 @@ export const login = async ({ username, password }) => {
       return { success: false, error: response.data.message };
     }
   } catch (err) {
-    console.log("NSIOFOSIJ");
-    return { success: false, error: err.message };
+    return { success: false, error: err.response.data };
   }
 };

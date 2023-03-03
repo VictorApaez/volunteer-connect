@@ -1,18 +1,38 @@
-.event-form-modal {
-}
-
-.event-form-modal-overlay {
-}
-
 .event-form {
   display: flex;
-  justify-content: center;
-}
-
-.event-form > * {
-  margin: 5px;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
 }
 
 .event-form-input {
-  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  width: 100%;
+  font-size: 1.2rem;
+}
+
+.event-form-submit,
+.event-form-cancel {
+  background-color: #0077b5;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 1.2rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.event-form-submit:hover,
+.event-form-cancel:hover {
+  background-color: #006097;
+}
+
+.event-form-cancel {
+  background-color: transparent;
+  color: #0077b5;
+  margin-top: 1rem;
 }
