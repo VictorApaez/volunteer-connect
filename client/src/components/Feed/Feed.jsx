@@ -14,6 +14,7 @@ function Feed() {
       })
       .catch((err) => console.log(err));
   }, []);
+
   return (
     <div className="feed">
       <PostForm posts={posts} setPosts={setPosts} />

@@ -15,6 +15,8 @@ const Post = ({ data, posts, setPosts }) => {
   const userProfileImg = "https://randomuser.me/api/portraits/men/4.jpg";
 
   useEffect(() => {
+    console.log(likes);
+    console.log(user);
     if (user && likes.includes(user.userId)) {
       setLike(true);
     }
