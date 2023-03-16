@@ -1,38 +1,52 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { addPostReducer, addPostPrepare } from "../reducers/postReducers";
+// reducers/posts.js
 
-const initialState = {
-  posts: {
-    byId: {},
-    allIds: [],
-  },
-  comments: {
-    byId: {},
-    allIds: [],
-  },
-};
+import { createSlice } from "@reduxjs/toolkit";
 
 const postsSlice = createSlice({
   name: "posts",
-  initialState,
+  initialState: {
+    byId: {},
+    allIds: [],
+  },
   reducers: {
-    addPost: {
-      reducer: addPostReducer,
-      prepare: addPostPrepare,
+    setPosts: (state, action) => {
+      state.byId = {};
+      state.allIds = [];
+
+      action.payload.forEach((post) => {
+        const { _id, timestamp, content, author, likes } = post;
+        state.allIds.push(_id);
+        state.byId[_id] = { _id, timestamp, content, author, likes };
+      });
     },
-    addComment: {
-      reducer: (state, action) => {
-        const { id, comment, postId } = action.payload;
-        state.comments.byId[id] = comment;
-        state.posts.byId[postId].comments.push(id);
-        state.comments.allIds.unshift(id);
-      },
-      prepare: (comment, postId) => {
-        return { payload: { id: comment._id, comment, postId } };
-      },
+    addPost: (state, action) => {
+      console.log(action.payload);
+      const { _id, timestamp, content, author, likes } = action.payload;
+      const authorId = author._id;
+      state.byId[_id] = { _id, content, author, timestamp, likes };
+      state.allIds.unshift(_id);
+    },
+    deletePost: (state, action) => {
+      const { id } = action.payload;
+      delete state.byId[id];
+      state.allIds = state.allIds.filter((postId) => postId !== id);
+    },
+    likePost: (state, action) => {
+      const { postId, userId } = action.payload;
+      console.log(postId);
+      state.byId[postId].likes.push(userId);
+    },
+    unlikePost: (state, action) => {
+      const { postId, userId } = action.payload;
+      const updatedLikes = state.byId[postId].likes.filter(
+        (id) => id !== userId
+      );
+      console.log(updatedLikes);
+      state.byId[postId].likes = updatedLikes;
     },
   },
 });
 
-export const { addPost, addComment } = postsSlice.actions;
-export const postsReducer = postsSlice.reducer;
+export const { addPost, deletePost, setPosts, unlikePost, likePost } =
+  postsSlice.actions;
+export const postReducer = postsSlice.reducer;
