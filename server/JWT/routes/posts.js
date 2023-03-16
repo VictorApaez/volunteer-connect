@@ -9,6 +9,7 @@ const {
   editPost,
   likePost,
   unlikePost,
+  getUsersByPostLikes,
 } = require("../controllers/postController");
 
 // add verify token middleware after testing
@@ -18,5 +19,6 @@ router.delete("/delete", verifyToken, deletePost);
 router.put("/edit", verifyToken, editPost);
 router.post("/like", verifyToken, likePost);
 router.post("/unlike", verifyToken, unlikePost);
+router.post("/likes/users", verifyToken, getUsersByPostLikes);
 
 module.exports = router;

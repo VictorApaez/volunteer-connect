@@ -8,11 +8,13 @@ const createComment = async (req, res, next) => {
     const commentData = {
       content: req.body.content,
       author: req.user.userId,
+      postId: req.body.postId,
     };
     const comment = await Comment.create(commentData);
     await Post.findByIdAndUpdate(req.body.postId, {
       $push: { comments: comment._id },
     });
+    console.log(comment);
     const populatedComment = await Comment.findById(comment._id).populate({
       path: "author",
       select: "username",
@@ -33,6 +35,15 @@ const getComments = async (req, res, next) => {
   }
 };
 
+const getAllComments = async (req, res, next) => {
+  try {
+    // get all comments
+    const comments = await Comment.find({});
+    res.status(200).json(comments);
+  } catch (err) {
+    next(err);
+  }
+};
 const deleteComment = async (req, res, next) => {
   try {
     const post = await Post.findById(req.body.postId).populate("comments");
@@ -59,4 +70,4 @@ const deleteComment = async (req, res, next) => {
   }
 };
 
-module.exports = { createComment, getComments, deleteComment };
+module.exports = { createComment, getComments, deleteComment, getAllComments };

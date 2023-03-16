@@ -4,7 +4,10 @@ const User = require("../db/models/user");
 const createPost = async (req, res) => {
   try {
     const user = await User.findById(req.user.userId);
-    const post = new Post({ content: req.body.content, author: user });
+    const post = new Post({
+      content: req.body.content,
+      author: user,
+    });
     user.posts.unshift(post);
     await post.save();
     await user.save();
@@ -52,6 +55,7 @@ const getPosts = async (req, res) => {
         options: { sort: { createdAt: -1 } },
       })
       .populate("author", "username -_id");
+
     res.status(200).json(posts);
   } catch (err) {
     res.status(400).json(err);
@@ -80,6 +84,11 @@ const likePost = async (req, res) => {
       { $addToSet: { likes: userId } },
       { new: true }
     );
+    if (!post) {
+      return res.status(404).json({
+        message: `Post not found with userId: ${userId} and postId: ${postId}`,
+      });
+    }
     res.status(200).json(post);
   } catch (err) {
     res.status(400).json(err);
@@ -87,21 +96,51 @@ const likePost = async (req, res) => {
 };
 
 const unlikePost = async (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user.userId;
   const postId = req.body.postId;
-
   try {
     const post = await Post.findByIdAndUpdate(
       postId,
       { $pull: { likes: userId } },
       { new: true }
     );
+    if (!post) {
+      return res.status(404).json({
+        message: `Post not found with userId: ${userId} and postId: ${postId}`,
+      });
+    }
+
     res.status(200).json(post);
   } catch (err) {
     res.status(400).json(err);
   }
 };
 
+const getUsersByPostLikes = async (req, res) => {
+  try {
+    const post = await Post.findById(req.body.postId);
+    if (!post) {
+      return res.status(404).json({
+        message: `Post not found with postId: ${req.body.postId}`,
+      });
+    }
+    if (post.likes.length === 0) {
+      return res.status(200).json([]);
+    }
+
+    const userIds = post.likes.map((like) => like.toString());
+    const users = await User.find({ _id: { $in: userIds } });
+    const usernames = users.map((user) => {
+      return {
+        username: user.username,
+      };
+    });
+
+    res.status(200).json(usernames);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+};
 module.exports = {
   createPost,
   deletePost,
@@ -109,4 +148,5 @@ module.exports = {
   editPost,
   likePost,
   unlikePost,
+  getUsersByPostLikes,
 };
