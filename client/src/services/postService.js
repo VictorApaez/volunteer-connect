@@ -18,18 +18,30 @@ export const createPost = async (post) => {
   }
 };
 
-export const likePost = async (postId) => {
+export const likePostDB = async (postId) => {
   try {
     const res = await api.post(`/posts/like`, { postId });
+    console.log(res);
+
     return res.data;
   } catch (err) {
     console.log(err);
   }
 };
 
-export const unlikePost = async (postId) => {
+export const unlikePostDB = async (postId) => {
   try {
     const res = await api.post(`/posts/unlike`, { postId });
+    console.log(res);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getUsersByPostLikes = async (postId) => {
+  try {
+    const res = await api.post(`/posts/likes/users`, { postId });
     return res.data;
   } catch (err) {
     console.log(err);
