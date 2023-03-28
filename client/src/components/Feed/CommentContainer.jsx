@@ -1,7 +1,11 @@
 import React from "react";
 import Comment from "./Comment";
 import "../../styles/CommentContainer.css";
-function CommentContainer({ comments }) {
+import { useSelector } from "react-redux";
+import { getCommentsByPostId } from "../../store";
+
+function CommentContainer({ postId }) {
+  const comments = useSelector((state) => getCommentsByPostId(state, postId));
   return (
     <div className="comment-container">
       {comments.map((comment, i) => {

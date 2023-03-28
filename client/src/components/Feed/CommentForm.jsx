@@ -1,40 +1,44 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import "../../styles/CommentForm.css";
 import { createComment } from "../../services/commentsService";
-import { useDispatch, useSelector } from "react-redux";
-import { addComment } from "../../store/slices/postSlice";
+import { useDispatch } from "react-redux";
+import { addComment } from "../../store/";
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
 
-const CommentForm = ({ postId, setToggleComments, posts, setPosts }) => {
+const CommentForm = ({ postId, setToggleComments }) => {
   // current users profile pic
   const userProfileImg = "https://randomuser.me/api/portraits/women/2.jpg";
-  const commentRef = useRef();
+  const [content, setContent] = useState("");
+  const inputRef = useRef(null);
+  const [togglePicker, setTogglePicker] = useState(false);
   const dispatch = useDispatch();
-  const postsTest = useSelector((state) => state.posts);
-  const commentsTest = useSelector((state) => state.comments);
-  console.log(postsTest);
+
   async function handleSubmit(e) {
+    console.log(content);
     e.preventDefault();
     const commentRes = await createComment({
-      content: commentRef.current.value,
+      content,
       postId,
     });
-    // console.log(commentRes);
-    // console.log(postId);
-    dispatch(addComment(commentRes, postId));
-
-    const updatedPosts = posts.map((post) => {
-      if (post._id === postId) {
-        const updatedComments = [commentRes, ...post.comments];
-        return { ...post, comments: updatedComments };
-      } else {
-        return post; // Return the original post
-      }
-    });
-    setPosts(updatedPosts);
-
+    dispatch(addComment(commentRes));
     setToggleComments(true);
-    commentRef.current.blur();
-    commentRef.current.value = "";
+    setContent("");
+  }
+
+  function handleChange(e) {
+    setContent(e.target.value);
+    e.target.style.height = "50px";
+    e.target.style.height = `${e.target.scrollHeight}px`;
+  }
+
+  function handleEmojiSelect(emoji) {
+    const startPos = inputRef.current.selectionStart;
+    const endPos = inputRef.current.selectionEnd;
+    const startText = content.substring(0, startPos);
+    const endText = content.substring(endPos, content.length);
+    const newContent = startText + emoji.native + endText;
+    setContent(newContent);
   }
 
   return (
@@ -45,12 +49,31 @@ const CommentForm = ({ postId, setToggleComments, posts, setPosts }) => {
         className="comment-form__profile-img"
       />
       <form className="comment-form" onSubmit={handleSubmit}>
-        <input
-          ref={commentRef}
-          type="text"
-          className="comment-form__input"
-          placeholder="Write a comment..."
-        />
+        <div className="comment-form-text-area-container">
+          <textarea
+            ref={inputRef}
+            className="comment-form__input"
+            value={content}
+            onChange={(e) => handleChange(e)}
+            placeholder="Write a comment..."
+          />
+          <button
+            type="button"
+            className="comment-form__emoji-btn"
+            onClick={(e) => setTogglePicker(!togglePicker)}
+          >
+            {togglePicker ? "❌" : "😀"}
+          </button>
+          {togglePicker && (
+            <div className="emoji-picker">
+              <Picker onEmojiSelect={(emoji) => handleEmojiSelect(emoji)} />
+            </div>
+          )}
+        </div>
+
+        <button type="submit" className="comment-form-post-btn">
+          Post
+        </button>
       </form>
     </div>
   );

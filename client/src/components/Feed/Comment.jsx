@@ -14,7 +14,7 @@ const Comment = ({ data }) => {
         className="comment__profile-img"
       />
       <div className="comment__details">
-        <h3 className="comment__username">{author.username}</h3>
+        <h5 className="comment__username">{author.username}</h5>
         <p className="comment__timestamp">{formattedDate}</p>
         <p>{content}</p>
 

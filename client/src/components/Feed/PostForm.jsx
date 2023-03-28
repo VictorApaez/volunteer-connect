@@ -4,18 +4,17 @@ import "../../styles/PostForm.css";
 import { useDispatch, useSelector } from "react-redux";
 import { addPost } from "../../store";
 
-function PostForm({ setPosts, posts }) {
+function PostForm() {
   const inputRef = useRef();
   const dispatch = useDispatch();
 
   async function handleSubmit(event) {
     event.preventDefault();
     const content = inputRef.current.value;
-    const res = await createPost({ content });
 
+    // TODO: change to optimistic update
+    const res = await createPost({ content });
     dispatch(addPost(res));
-    // WILL NOT USE THE NEXT LINE ANYMORE
-    setPosts([res, ...posts]);
     inputRef.current.value = "";
   }
   return (
