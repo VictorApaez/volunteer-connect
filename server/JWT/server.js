@@ -5,13 +5,13 @@ const authRoutes = require("./routes/auth");
 const cors = require("cors");
 const postRoutes = require("./routes/posts");
 const commentsRoutes = require("./routes/comments");
-const corsOptions = {
-  origin: "*",
-  credentials: true, //access-control-allow-credentials:true
-  optionSuccessStatus: 200,
-};
 
-app.use(cors(corsOptions));
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  next();
+});
+
+app.use(cors());
 
 app.use(express.json());
 
@@ -23,7 +23,7 @@ app.get("/", (req, res) => {
   res.json({ hello: "YO" });
 });
 
-const port = 5000;
+const port = process.env.MONGODB_URI || 5000;
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
 });
