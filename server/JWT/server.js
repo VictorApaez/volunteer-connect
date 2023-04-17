@@ -22,8 +22,7 @@ app.use("/comments", commentsRoutes);
 app.get("/", (req, res) => {
   res.json({ hello: "YO" });
 });
-
-const port = process.env.MONGODB_URI || 5000;
+const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
 });
