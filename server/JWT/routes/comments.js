@@ -12,6 +12,6 @@ const {
 router.post("/create", verifyToken, createComment);
 router.get("/id/all", verifyToken, getComments);
 router.delete("/id/delete", verifyToken, deleteComment);
-router.get("/all", verifyToken, getAllComments);
+router.get("/all", getAllComments);
 
 module.exports = router;
