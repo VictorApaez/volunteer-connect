@@ -16,7 +16,7 @@ This web application is designed for companies and users to find volunteer oppor
 
 The application is built using the following technologies:
 
-## MClient-side
+## Client-side
 
 - React
 - Redux for state management
