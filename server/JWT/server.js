@@ -19,6 +19,10 @@ app.use("/auth", authRoutes);
 app.use("/posts", postRoutes);
 app.use("/comments", commentsRoutes);
 
+app.get("/", (req, res) => {
+  res.json({ hello: "YO" });
+});
+
 const port = 5000;
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
