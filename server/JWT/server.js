@@ -20,7 +20,7 @@ app.use("/posts", postRoutes);
 app.use("/comments", commentsRoutes);
 
 app.get("/", (req, res) => {
-  res.json({ hello: "YO" });
+  res.json({ welcome: "Thanks for visiting my server!" });
 });
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
