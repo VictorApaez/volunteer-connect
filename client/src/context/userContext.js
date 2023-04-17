@@ -11,6 +11,7 @@ export const UserProvider = (props) => {
     if (token) {
       getUser(token)
         .then((res) => {
+          console.log(res);
           setUser(res.user);
         })
         .catch((error) => {

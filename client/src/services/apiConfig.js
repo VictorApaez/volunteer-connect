@@ -1,7 +1,6 @@
 import axios from "axios";
-
 const api = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "https://volunteer-connect-production.up.railway.app/",
 });
 
 api.interceptors.request.use(
