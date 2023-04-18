@@ -10,15 +10,6 @@ export const createComment = async ({ postId, content }) => {
   }
 };
 
-// export const getCommentsByPostId = async (postId) => {
-//   try {
-//     const res = api.get("id/all", { postId });
-//     return res;
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
-
 export const getAllComments = async (postId) => {
   try {
     const response = await api.get("/comments/all", { postId });
