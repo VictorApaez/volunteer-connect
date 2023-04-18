@@ -24,8 +24,11 @@ const commentsSlice = createSlice({
     },
     deleteComment: (state, action) => {
       const { id } = action.payload;
-      delete state.byId[id];
       state.allIds = state.allIds.filter((commentId) => commentId !== id);
+      state.byId = state.allIds.reduce((byId, commentId) => {
+        byId[commentId] = state.byId[commentId];
+        return byId;
+      }, {});
     },
   },
 });
